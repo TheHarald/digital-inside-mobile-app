@@ -85,7 +85,12 @@ export const Phones = ({ navigation }) => {
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={styles.titleText} onPress={getPhones}>Телефоны</Text>
                 <Text style={{ ...styles.titleText, color: "#007AFF" }} onPress={() => setvisibleCart(true)}>Продано</Text>
-                <Text style={{ ...styles.titleText, color: "#007AFF" }} onPress={() => navigation.navigate('Start')}>Выйти</Text>
+                <Text style={{ ...styles.titleText, color: "#007AFF" }}
+                    onPress={() => {
+                        navigation.navigate('Start')
+                        AsyncStorage.removeItem('token')
+
+                    }}>Выйти</Text>
             </View>
             <Phone
                 visiblePhone={visiblePhone}

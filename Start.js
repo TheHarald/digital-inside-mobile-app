@@ -23,13 +23,12 @@ export const Start = ({ navigation }) => {
         try {
             const value = await AsyncStorage.getItem('token');
             if (value !== null) {
-                console.log(value);
+                //console.log(value);
                 return value
             }
         } catch (error) {
             alert("не удалось получить токен")
         }
-        console.log('===============================================')
     }
 
 
@@ -37,24 +36,46 @@ export const Start = ({ navigation }) => {
         console.log(email, password)
 
 
-        const requestOptions = {
+        // const requestOptions = {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({
+        //         email: email,
+        //         password: password
+        //     })
+        // };
+
+        // fetch(url, requestOptions)
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         console.log('status ->', data)
+        //         setToken(data)
+        //         console.log('token form get = ', token.access)
+        //         AsyncStorage.setItem('token', token.access)
+        //     })
+        //     .catch(alert('Нет доступа к базе данных'));
+
+
+        axios({
             method: 'POST',
+            url: url,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
+            data: {
                 email: email,
                 password: password
-            })
-        };
+            }
 
-        fetch(url, requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                console.log('status ->', data)
-                setToken(data)
-                console.log('token form get = ', token.access)
-                AsyncStorage.setItem('token', token.access)
-            })
-            .catch('Нет доступа к базе данных');
+        }).then(
+            response => {
+                console.log(response.data.access)
+                console.log(response.status)
+                // setToken(response.data.access)
+                AsyncStorage.setItem('token', response.data.access)
+            }).catch((error) => {
+                console.log('catch', error)
+                alert('Нет доступа к базе данных')
+            }
+            )
 
 
 
